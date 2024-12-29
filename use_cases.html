@@ -1,0 +1,751 @@
+<!DOCTYPE HTML>
+<html lang="uk" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Розроблення функціональних вимог до системи - Назва проєкту</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Назва проєкту</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="Модель-прецедентів"><a class="header" href="#Модель-прецедентів">Модель прецедентів</a></h2>
+<h3 id="1-Загальна-схема"><a class="header" href="#1-Загальна-схема">1. Загальна схема</a></h3>
+<pre><code class="language-plantuml">@startuml
+
+    ' Set global actor styles
+    skinparam actor {
+        BackgroundColor #ffed94
+        BorderColor black
+        FontColor black
+    }
+
+    actor "Користувач" as RegisteredUser
+    actor "Дослідник" as DataResearcher #bffaa2
+    actor "Експерт" as DataExpert #eacffa
+    actor "Адміністратор системи" as SystemAdmin #94f1ff
+
+    package "Управління обліковим записом" {
+        usecase "Створити акаунт" as UC_1.1
+        usecase "Увійти в систему" as UC_1.2  
+        usecase "Редагувати профіль" as UC_1.3
+        usecase "Перегляд доступних наборів даних" as UC_1.4
+    }
+
+    package "Робота з даними дослідника" {
+        usecase "Завантажити новий набір даних" as UC_2.1    
+        usecase "Отримати аналітику по даним" as UC_2.2
+        usecase "Редагувати опис набору даних" as UC_2.3
+    }
+
+    package "Експертна оцінка даних" {
+        usecase "Оцінити якість набору даних" as UC_3.1
+        usecase "Додати експертну думку" as UC_3.2
+    }
+
+    package "Адміністрування системи" {
+        usecase "Управління акаунтами користувачів" as UC_4.1
+        usecase "Перевірка на відповідність стандартам" as UC_4.2
+        usecase "Керування наборами даних" as UC_4.3
+    }
+
+    RegisteredUser --&gt; UC_1.1
+    RegisteredUser --&gt; UC_1.2
+    RegisteredUser --&gt; UC_1.3
+    RegisteredUser --&gt; UC_1.4
+
+    DataResearcher --|&gt; RegisteredUser
+    DataExpert --|&gt; RegisteredUser
+    SystemAdmin --|&gt; RegisteredUser
+
+    DataResearcher --&gt; UC_2.1
+    DataResearcher --&gt; UC_2.2
+    DataResearcher --&gt; UC_2.3
+
+    DataExpert --&gt; UC_3.1
+    DataExpert --&gt; UC_3.2
+
+    SystemAdmin --&gt; UC_4.1
+    SystemAdmin --&gt; UC_4.2
+    SystemAdmin --&gt; UC_4.3
+
+    footer
+        Модель прецедентів для системи управління відкритими даними.
+        НТУУ КПІ ім. І. Сікорського
+        Київ-2024
+    endfooter
+
+@enduml
+</code></pre>
+<h3 id="2-Схема-взаємодії-користувача"><a class="header" href="#2-Схема-взаємодії-користувача">2. Схема взаємодії користувача</a></h3>
+<pre><code class="language-plantuml">@startuml
+
+skinparam actor {
+BackgroundColor #ffed94
+BorderColor black
+FontColor black
+}
+
+actor "Користувач" as RegisteredUser
+
+usecase "&lt;b&gt;Створити акаунт&lt;/b&gt;\nРеєстрація користувача" as UC_1.1
+usecase "&lt;b&gt;Увійти в систему&lt;/b&gt;\nАвторизація" as UC_1.2  
+usecase "&lt;b&gt;Редагувати профіль&lt;/b&gt;\nРедагування профілю" as UC_1.3
+usecase "&lt;b&gt;Перегляд доступних наборів даних&lt;/b&gt;\nОгляд даних" as UC_1.4
+
+' Дочірні варіанти використання для "Редагувати профіль"
+usecase "&lt;b&gt;Завантажити фото&lt;/b&gt;\nДодавання аватара" as UC_1.3.1
+usecase "&lt;b&gt;Змінити пароль&lt;/b&gt;\nОновлення пароля" as UC_1.3.2
+
+' Зв'язки між "Користувач" і основними прецедентами
+RegisteredUser --&gt; UC_1.1
+RegisteredUser --&gt; UC_1.2
+RegisteredUser --&gt; UC_1.3
+RegisteredUser --&gt; UC_1.4
+
+' Зв'язки "extends" для підпроцесів у прецеденті "Редагувати профіль"
+UC_1.3.1 ..|&gt; UC_1.3 : extends
+UC_1.3.2 ..|&gt; UC_1.3 : extends
+
+footer
+Модель прецедентів для зареєстрованого користувача.
+НТУУ КПІ ім. І. Сікорського
+Київ-2024
+endfooter
+
+@enduml
+</code></pre>
+<h3 id="3-Схема-взаємодії-дослідника"><a class="header" href="#3-Схема-взаємодії-дослідника">3. Схема взаємодії дослідника</a></h3>
+<pre><code class="language-plantuml">@startuml
+
+skinparam actor {
+BackgroundColor #bffaa2
+BorderColor black
+FontColor black
+}
+
+actor "Дослідник" as DataResearcher
+
+usecase "&lt;b&gt;Завантажити новий набір даних&lt;/b&gt;\nЗавантаження даних" as UC_2.1
+usecase "&lt;b&gt;Отримати аналітику по даним&lt;/b&gt;\nАналіз даних" as UC_2.2
+usecase "&lt;b&gt;Редагувати опис набору даних&lt;/b&gt;\nРедагування опису" as UC_2.3
+
+' Дочірні варіанти використання
+usecase "&lt;b&gt;Додати опис&lt;/b&gt;\nДодавання текстового опису" as UC_2.1.1
+usecase "&lt;b&gt;Позначити дані як публічні&lt;/b&gt;\nПублікація даних" as UC_2.3.1
+
+' Основні взаємодії
+DataResearcher --&gt; UC_2.1
+DataResearcher --&gt; UC_2.2
+DataResearcher --&gt; UC_2.3
+
+' Зв'язки розширення (extends) для дочірніх прецедентів
+UC_2.1.1 ..|&gt; UC_2.1 : extends
+UC_2.3.1 ..|&gt; UC_2.3 : extends
+
+footer
+Модель прецедентів для дослідника.
+НТУУ КПІ ім. І. Сікорського
+Київ-2024
+endfooter
+
+@enduml
+</code></pre>
+<h3 id="4-Схема-взаємодії-експерта"><a class="header" href="#4-Схема-взаємодії-експерта">4. Схема взаємодії експерта</a></h3>
+<pre><code class="language-plantuml">@startuml
+
+skinparam actor {
+BackgroundColor #bffaa2
+BorderColor black
+FontColor black
+}
+
+    actor "Експерт" as DataExpert #eacffa
+    usecase "Оцінити якість набору даних" as UC_3.1
+    usecase "Додати експертну думку" as UC_3.2
+    
+    usecase "Додати коментар" as UC_3.2.1
+    usecase "Позначити набір даних як надійний" as UC_3.2.2
+    
+    DataExpert --&gt; UC_3.1
+    DataExpert --&gt; UC_3.2
+    
+    UC_3.2.1 ..&gt; UC_3.2 :extends
+    UC_3.2.2 ..&gt; UC_3.2 :extends
+    right footer
+        Модель прецедентів для експерта з відкритих даних.
+        НТУУ КПІ ім.І.Сікорського
+        Київ-2024
+    end footer
+
+@enduml
+</code></pre>
+<h3 id="5-Схема-взаємодії-адміністратора-системи"><a class="header" href="#5-Схема-взаємодії-адміністратора-системи">5. Схема взаємодії адміністратора системи</a></h3>
+<pre><code class="language-plantuml">@startuml
+
+skinparam actor {
+BackgroundColor #94f1ff
+BorderColor black
+FontColor black
+}
+
+actor "Адміністратор системи" as SystemAdmin
+
+usecase "Управління акаунтами користувачів" as UC_4.1
+usecase "Перевірка на відповідність стандартам" as UC_4.2
+usecase "Керування наборами даних" as UC_4.3
+
+usecase "Заблокувати користувача" as UC_4.1.1
+usecase "Відновити акаунт користувача" as UC_4.1.2
+usecase "Перевірити новий набір даних" as UC_4.2.1
+usecase "Затвердити набір даних" as UC_4.3.1
+
+SystemAdmin --&gt; UC_4.1
+SystemAdmin --&gt; UC_4.2
+SystemAdmin --&gt; UC_4.3
+
+UC_4.1.1 ..|&gt; UC_4.1 : extends
+UC_4.1.2 ..|&gt; UC_4.1 : extends
+UC_4.2.1 ..|&gt; UC_4.2 : extends
+UC_4.3.1 ..|&gt; UC_4.3 : extends
+
+footer
+Модель прецедентів для адміністратора системи.
+НТУУ КПІ ім. І. Сікорського
+Київ-2024
+endfooter
+
+@enduml
+</code></pre>
+<h3 id="1-Сценарій-Створити-акаунт"><a class="header" href="#1-Сценарій-Створити-акаунт">1. Сценарій Створити акаунт</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left"><span id="RegisterAdmin">Створити акаунт</span></th></tr></thead><tbody>
+<tr><td style="text-align: left">НАЗВА</td><td style="text-align: left">Реєстрація акаунта</td></tr>
+<tr><td style="text-align: left">УЧАСНИКИ</td><td style="text-align: left">Користувач, Система</td></tr>
+<tr><td style="text-align: left">ПЕРЕДУМОВИ</td><td style="text-align: left">Користувач має права на реєстрацію.</td></tr>
+<tr><td style="text-align: left">РЕЗУЛЬТАТ</td><td style="text-align: left">Новий користувач зареєстрований у системі.</td></tr>
+<tr><td style="text-align: left">ВИКЛЮЧНІ СИТУАЦІЇ</td><td style="text-align: left">Користувач без прав на реєстрацію.<br/>Не заповнені всі обов'язкові поля.<br/>Помилка підключення до бази даних.</td></tr>
+<tr><td style="text-align: left">ОСНОВНИЙ СЦЕНАРІЙ</td><td style="text-align: left">1. Гість входить у систему.<br/>2. Відкриває вкладку «Реєстрація».<br/>3. Обирає «Зареєструвати акаунт».<br/>4. Вводить дані (ім'я, пошта).<br/>5. Натискає «Підтвердити».<br/>6. Система перевіряє дані користувача.<br/>7. Система реєструє нового користувача та надає доступ.</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-plantuml">@startuml
+
+    |Користувач|
+    start;
+    : Входить у систему;
+    
+    |Система|
+        : Відкриває вкладку "Реєстрація";
+    
+    |Користувач|
+    : Обирає "Зареєструвати акаунт";
+    : Вводить дані (ім'я, пошта);
+    : Натискає кнопку "Підтвердити";
+    note right #FF6969
+    &lt;b&gt; Можлива
+    &lt;b&gt; EmptyRequiredFields
+    end note
+    
+    |Система|
+    : Перевіряє права користувача;
+    note right #FF6969
+    &lt;b&gt; Можлива
+    &lt;b&gt; NoRegistrationRights
+    end note
+    : Реєструє нового користувача;
+    note right #FF6969
+    &lt;b&gt; Можлива
+    &lt;b&gt; DBConnectionError
+    end note
+    
+    : Надає доступ новому користувачу;
+    : Повідомляє про успішну реєстрацію;
+    stop;
+
+@enduml
+</code></pre>
+<h3 id="2-Сценарій-Прибрати-дані"><a class="header" href="#2-Сценарій-Прибрати-дані">2. Сценарій Прибрати дані</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left"><span id="RemoveData">Прибрати дані</span></th></tr></thead><tbody>
+<tr><td style="text-align: left">НАЗВА</td><td style="text-align: left">Видалення даних, доданих адміністратором</td></tr>
+<tr><td style="text-align: left">УЧАСНИКИ</td><td style="text-align: left">Адміністратор, Система</td></tr>
+<tr><td style="text-align: left">ПЕРЕДУМОВИ</td><td style="text-align: left">Адміністратор має права на видалення даних.</td></tr>
+<tr><td style="text-align: left">РЕЗУЛЬТАТ</td><td style="text-align: left">Дані успішно видалені з системи.</td></tr>
+<tr><td style="text-align: left">ВИКЛЮЧНІ СИТУАЦІЇ</td><td style="text-align: left">Неправильний пароль для підтвердження.<br/> Недостатньо прав для видалення даних.</td></tr>
+<tr><td style="text-align: left">ОСНОВНИЙ СЦЕНАРІЙ</td><td style="text-align: left">1. Адміністратор входить у систему.<br/>2. Адміністратор відкриває вкладку з управлінням даними.<br/>3. Адміністратор вибирає дані, які необхідно видалити.<br/>4. Система запитує підтвердження видалення.<br/>5. Адміністратор підтверджує дію.<br/>6. Система перевіряє права та видаляє дані з бази.</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-plantuml">@startuml
+
+    |Адміністратор|
+    start;
+    : Входить у систему;
+    
+    |Система|
+    : Відкриває вкладку з управлінням даними;
+    
+    |Адміністратор|
+    : Вибирає дані, які необхідно видалити;
+    
+    |Система|
+    : Запитує підтвердження видалення;
+    
+    |Адміністратор|
+    : Вводить пароль для підтвердження;
+    : Підтверджує дію;
+    
+    |Система|
+    : Перевіряє пароль адміністратора;
+    note right #FF6969
+    &lt;b&gt; Можлива
+    &lt;b&gt; IncorrectPassword
+    end note
+    
+    : Перевіряє права адміністратора;
+    note right #FF6969
+    &lt;b&gt; Можлива
+    &lt;b&gt; InsufficientPermissions
+    end note
+    
+    : Видаляє дані з системи;
+    
+    stop;
+
+@enduml
+</code></pre>
+<h3 id="3-Сценарій-Додати-дані"><a class="header" href="#3-Сценарій-Додати-дані">3. Сценарій Додати дані</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left"><span id="AddData">Додати дані</span></th></tr></thead><tbody>
+<tr><td style="text-align: left">НАЗВА</td><td style="text-align: left">Додавання даних адміністратором</td></tr>
+<tr><td style="text-align: left">УЧАСНИКИ</td><td style="text-align: left">Адміністратор, Система</td></tr>
+<tr><td style="text-align: left">ПЕРЕДУМОВИ</td><td style="text-align: left">Адміністратор авторизований та має права на додавання даних.</td></tr>
+<tr><td style="text-align: left">РЕЗУЛЬТАТ</td><td style="text-align: left">Нові дані успішно додані до системи.</td></tr>
+<tr><td style="text-align: left">ВИКЛЮЧНІ СИТУАЦІЇ</td><td style="text-align: left">Неправильний формат введених даних.<br/> Недостатньо прав для додавання даних.</td></tr>
+<tr><td style="text-align: left">ОСНОВНИЙ СЦЕНАРІЙ</td><td style="text-align: left">1. Адміністратор входить у систему.<br/> 2. Адміністратор відкриває вкладку з управлінням даними.<br/> 3. Натискає «Додати нові дані».<br/> 4. Система відкриває форму для введення нових даних (наприклад, назва, опис, тип даних).<br/> 5. Адміністратор заповнює всі необхідні поля.<br/> 6. Адміністратор натискає «Зберегти».<br/> 7. Система перевіряє правильність даних і зберігає їх у базі.</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-plantuml">@startuml
+
+    |Адміністратор|
+    start;
+    : Входить у систему;
+    
+    |Система|
+    : Відкриває вкладку з управлінням даними;
+    
+    |Адміністратор|
+    : Натискає "Додати нові дані";
+    
+    |Система|
+    : Відкриває форму для введення нових даних;
+    
+    |Адміністратор|
+    : Заповнює всі необхідні поля;
+    : Натискає "Зберегти";
+    
+    |Система|
+    : Перевіряє правильність введених даних;
+    note right #FF6969
+    &lt;b&gt; Можлива
+    &lt;b&gt; IncorrectDataFormat
+    end note
+    
+    : Перевіряє права адміністратора;
+    note right #FF6969
+    &lt;b&gt; Можлива
+    &lt;b&gt; InsufficientPermissions
+    end note
+    
+    : Зберігає нові дані в системі;
+    
+    stop;
+
+@enduml
+</code></pre>
+<h3 id="4-Сценарій-Оновлення-пароля"><a class="header" href="#4-Сценарій-Оновлення-пароля">4. Сценарій Оновлення пароля</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left"><span id="UpdatePassword">Оновлення пароля</span></th></tr></thead><tbody>
+<tr><td style="text-align: left">НАЗВА</td><td style="text-align: left">Оновлення пароля користувача</td></tr>
+<tr><td style="text-align: left">УЧАСНИКИ</td><td style="text-align: left">Користувач, Система</td></tr>
+<tr><td style="text-align: left">ПЕРЕДУМОВИ</td><td style="text-align: left">Користувач авторизований у системі.</td></tr>
+<tr><td style="text-align: left">РЕЗУЛЬТАТ</td><td style="text-align: left">Пароль користувача успішно змінено.</td></tr>
+<tr><td style="text-align: left">ВИКЛЮЧНІ СИТУАЦІЇ</td><td style="text-align: left">Некоректний старий пароль.<br/>Пароль не відповідає вимогам безпеки.</td></tr>
+<tr><td style="text-align: left">ОСНОВНИЙ СЦЕНАРІЙ</td><td style="text-align: left">1. Користувач входить у систему.<br/>2. Користувач переходить до налаштувань профілю.<br/>3. Користувач вибирає «Змінити пароль».<br/>4. Вводить старий пароль та новий.<br/>5. Система перевіряє коректність даних.<br/>6. Система змінює пароль і підтверджує зміни.</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-plantuml">@startuml
+
+    |Користувач|
+    start;
+    : Входить у систему;
+    
+    |Система|
+    : Відкриває налаштування профілю;
+    
+    |Користувач|
+    : Вибирає "Змінити пароль";
+    : Вводить старий та новий пароль;
+    
+    |Система|
+    : Перевіряє старий пароль;
+    note right #FF6969
+    &lt;b&gt; Можлива
+    &lt;b&gt; IncorrectOldPassword
+    end note
+    
+    : Перевіряє вимоги до пароля;
+    note right #FF6969
+    &lt;b&gt; Можлива
+    &lt;b&gt; WeakPassword
+    end note
+    
+    : Змінює пароль;
+    
+    stop;
+
+@enduml
+</code></pre>
+<h3 id="5-Сценарій-Перегляд-статистики-використання"><a class="header" href="#5-Сценарій-Перегляд-статистики-використання">5. Сценарій Перегляд статистики використання</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left"><span id="ViewStatistics">Перегляд статистики використання</span></th></tr></thead><tbody>
+<tr><td style="text-align: left">НАЗВА</td><td style="text-align: left">Перегляд статистики використання</td></tr>
+<tr><td style="text-align: left">УЧАСНИКИ</td><td style="text-align: left">Адміністратор, Система</td></tr>
+<tr><td style="text-align: left">ПЕРЕДУМОВИ</td><td style="text-align: left">Адміністратор авторизований та має права на перегляд статистики.</td></tr>
+<tr><td style="text-align: left">РЕЗУЛЬТАТ</td><td style="text-align: left">Адміністратор отримує доступ до статистики використання системи.</td></tr>
+<tr><td style="text-align: left">ВИКЛЮЧНІ СИТУАЦІЇ</td><td style="text-align: left">Немає доступу до статистики через обмежені права.<br/> Помилка при отриманні даних статистики.</td></tr>
+<tr><td style="text-align: left">ОСНОВНИЙ СЦЕНАРІЙ</td><td style="text-align: left">1. Адміністратор входить у систему.<br/> 2. Адміністратор відкриває вкладку з управлінням системою.<br/> 3. Натискає на «Перегляд статистики».<br/> 4. Система відображає статистику про використання системи: кількість користувачів, кількість завантажених наборів даних, активність на сайті тощо.<br/> 5. Адміністратор переглядає статистику для подальшого аналізу.</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-plantuml">@startuml
+
+    |Адміністратор|
+    start;
+    : Входить у систему;
+    
+    |Система|
+    : Відкриває вкладку з управлінням системою;
+    
+    |Адміністратор|
+    : Натискає "Перегляд статистики";
+    
+    |Система|
+    : Відображає статистику використання: кількість користувачів, набори даних, активність;
+    
+    |Адміністратор|
+    : Переглядає статистику для аналізу;
+    
+    stop;
+
+@enduml
+</code></pre>
+<h3 id="6-Сценарій-Перегляд-статистики-використання"><a class="header" href="#6-Сценарій-Перегляд-статистики-використання">6. Сценарій Перегляд статистики використання</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left"><span id="ViewUsageStats">Перегляд статистики використання</span></th></tr></thead><tbody>
+<tr><td style="text-align: left">НАЗВА</td><td style="text-align: left">Перегляд статистики використання</td></tr>
+<tr><td style="text-align: left">УЧАСНИКИ</td><td style="text-align: left">Адміністратор, Система</td></tr>
+<tr><td style="text-align: left">ПЕРЕДУМОВИ</td><td style="text-align: left">Адміністратор авторизований та має права на перегляд статистики.</td></tr>
+<tr><td style="text-align: left">РЕЗУЛЬТАТ</td><td style="text-align: left">Адміністратор отримує доступ до статистики використання системи.</td></tr>
+<tr><td style="text-align: left">ВИКЛЮЧНІ СИТУАЦІЇ</td><td style="text-align: left">Немає доступу до статистики через обмежені права.<br/> Помилка при отриманні даних статистики.</td></tr>
+<tr><td style="text-align: left">ОСНОВНИЙ СЦЕНАРІЙ</td><td style="text-align: left">1. Адміністратор входить у систему.<br/> 2. Адміністратор відкриває вкладку з управлінням системою.<br/> 3. Натискає на «Перегляд статистики».<br/> 4. Система відображає статистику про використання системи: кількість користувачів, кількість завантажених наборів даних, активність на сайті тощо.<br/> 5. Адміністратор переглядає статистику для подальшого аналізу.</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-plantuml">@startuml
+
+    |Адміністратор|
+    start;
+    : Входить у систему;
+    
+    |Система|
+    : Відкриває вкладку з управлінням системою;
+    
+    |Адміністратор|
+    : Натискає "Перегляд статистики";
+    
+    |Система|
+    : Відображає статистику використання: кількість користувачів, набори даних, активність;
+    
+    |Адміністратор|
+    : Переглядає статистику для аналізу;
+    
+    stop;
+
+@enduml
+</code></pre>
+<h3 id="7-Сценарій-Зміна-прав-доступу"><a class="header" href="#7-Сценарій-Зміна-прав-доступу">7. Сценарій Зміна прав доступу</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left"><span id="ChangePermissions">Зміна прав доступу</span></th></tr></thead><tbody>
+<tr><td style="text-align: left">НАЗВА</td><td style="text-align: left">Зміна прав доступу користувача</td></tr>
+<tr><td style="text-align: left">УЧАСНИКИ</td><td style="text-align: left">Адміністратор, Система</td></tr>
+<tr><td style="text-align: left">ПЕРЕДУМОВИ</td><td style="text-align: left">Адміністратор має права на зміну прав доступу.</td></tr>
+<tr><td style="text-align: left">РЕЗУЛЬТАТ</td><td style="text-align: left">Користувач отримує нові права доступу.</td></tr>
+<tr><td style="text-align: left">ВИКЛЮЧНІ СИТУАЦІЇ</td><td style="text-align: left">Недостатньо прав для зміни доступу.</td></tr>
+<tr><td style="text-align: left">ОСНОВНИЙ СЦЕНАРІЙ</td><td style="text-align: left">1. Адміністратор входить у систему.<br/>2. Вибирає користувача для зміни прав.<br/>3. Змінює права доступу користувача (наприклад, на "Адміністратор").<br/>4. Система оновлює права доступу.</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-plantuml">@startuml
+
+    |Адміністратор|
+    start;
+    : Входить у систему;
+    
+    |Система|
+    : Відкриває розділ зміни прав доступу;
+    
+    |Адміністратор|
+    : Вибирає користувача для зміни прав;
+    : Змінює права доступу;
+    
+    stop;
+
+@enduml
+</code></pre>
+<h3 id="8-Сценарій-Завантаження-нових-даних"><a class="header" href="#8-Сценарій-Завантаження-нових-даних">8. Сценарій Завантаження нових даних</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left"><span id="UploadNewData">Завантаження нових даних</span></th></tr></thead><tbody>
+<tr><td style="text-align: left">НАЗВА</td><td style="text-align: left">Завантаження нових даних для аналізу</td></tr>
+<tr><td style="text-align: left">УЧАСНИКИ</td><td style="text-align: left">Дослідник, Система</td></tr>
+<tr><td style="text-align: left">ПЕРЕДУМОВИ</td><td style="text-align: left">Дослідник авторизований у системі та має права на завантаження даних.</td></tr>
+<tr><td style="text-align: left">РЕЗУЛЬТАТ</td><td style="text-align: left">Новий набір даних успішно завантажено в систему.</td></tr>
+<tr><td style="text-align: left">ВИКЛЮЧНІ СИТУАЦІЇ</td><td style="text-align: left">Помилка файлу (неправильний формат, пошкоджені дані).</td></tr>
+<tr><td style="text-align: left">ОСНОВНИЙ СЦЕНАРІЙ</td><td style="text-align: left">1. Дослідник входить у систему.<br/>2. Вибирає опцію для завантаження нового набору даних.<br/>3. Завантажує файл з даними.<br/>4. Система перевіряє формат і зберігає дані в базі.</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-plantuml">@startuml
+
+    |Дослідник|
+    start;
+    : Входить у систему;
+    
+    |Система|
+    : Відкриває форму для завантаження даних;
+    
+    |Дослідник|
+    : Завантажує файл даних;
+    
+    |Система|
+    : Перевіряє формат даних;
+    note right #FF6969
+    &lt;b&gt; Можлива
+    &lt;b&gt; InvalidFileFormat
+    end note
+    
+    : Зберігає дані в системі;
+    
+    stop;
+
+@enduml
+</code></pre>
+<h3 id="9-Сценарій-Оцінка-набору-даних"><a class="header" href="#9-Сценарій-Оцінка-набору-даних">9. Сценарій Оцінка набору даних</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left"><span id="RateDataset">Оцінка набору даних</span></th></tr></thead><tbody>
+<tr><td style="text-align: left">НАЗВА</td><td style="text-align: left">Оцінка набору даних експертом</td></tr>
+<tr><td style="text-align: left">УЧАСНИКИ</td><td style="text-align: left">Експерт, Система</td></tr>
+<tr><td style="text-align: left">ПЕРЕДУМОВИ</td><td style="text-align: left">Експерт авторизований у системі та має права на оцінку даних.</td></tr>
+<tr><td style="text-align: left">РЕЗУЛЬТАТ</td><td style="text-align: left">Набір даних оцінений експертом.</td></tr>
+<tr><td style="text-align: left">ВИКЛЮЧНІ СИТУАЦІЇ</td><td style="text-align: left">Неправильний формат даних для оцінки.</td></tr>
+<tr><td style="text-align: left">ОСНОВНИЙ СЦЕНАРІЙ</td><td style="text-align: left">1. Експерт входить у систему.<br/>2. Вибирає набір даних для оцінки.<br/>3. Оцінює дані за визначеними критеріями.<br/>4. Додає коментар або рекомендації.</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-plantuml">@startuml
+
+    |Експерт|
+    start;
+    : Входить у систему;
+    
+    |Система|
+    : Відкриває набір даних для оцінки;
+    
+    |Експерт|
+    : Оцінює набір даних;
+    : Додає коментар;
+    
+    stop;
+
+@enduml
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="stakeholders-needs.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="design.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="stakeholders-needs.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="design.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

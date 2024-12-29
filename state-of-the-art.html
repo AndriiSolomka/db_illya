@@ -1,0 +1,472 @@
+<!DOCTYPE HTML>
+<html lang="uk" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Аналіз предметної області - Назва проєкту</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Назва проєкту</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="Аналіз-предметної-області"><a class="header" href="#Аналіз-предметної-області">Аналіз предметної області</a></h1>
+<h2 id="Вступ"><a class="header" href="#Вступ">Вступ</a></h2>
+<p><em>[Вступ повинен містити короткий огляд всього документу.]</em></p>
+<p>Системи управління відкритими даними призначені для зберігання, обробки та забезпечення доступу до публічної інформації у зручному для використання та повторного аналізу форматі. У документі буде розглянуто ключові концепції та терміни, визначено основні підходи до управління відкритими даними, оцінено різні системи з точки зору функціональних та нефункціональних вимог (FURPS) .</p>
+<h2 id="Основні-визначення"><a class="header" href="#Основні-визначення">Основні визначення</a></h2>
+<p><em>[Розділ містить визначення термінів та скорочень, які використовуються при аналізі предметної області.]</em></p>
+<p>Відкриті дані – це дані, які доступні для безкоштовного використання, обробки та поширення без обмежень щодо авторських прав, патентів чи інших форм контролю. Вони можуть бути використані будь-ким для аналізу, дослідження або створення нових продуктів і послуг.</p>
+<p>База даних – це організоване зібрання структурованої інформації, що зберігається та керується системою управління базами даних (СУБД). Бази даних використовуються для зберігання, обробки та управління даними, забезпечуючи їх доступність та цілісність. Вони є основою для багатьох додатків, служб та систем, що потребують зберігання великих обсягів даних. Існують різні типи баз даних, такі як реляційні (наприклад, MySQL, PostgreSQL) та нереляційні (наприклад, MongoDB, Cassandra), що впливають на їх використання в залежності від потреб користувачів та специфіки даних.</p>
+<p>Система управління відкритими даними (Open Data Management System, ODMS) – це програмний комплекс, що забезпечує збір, зберігання, обробку, публікацію та управління відкритими даними. Вона дозволяє організаціям і державним установам ефективно управляти даними, що публікуються для загального доступу, сприяючи прозорості, відповідальності та інноваціям.</p>
+<p>API (Application Programming Interface) – це інтерфейс програмування додатків, який дозволяє програмам взаємодіяти між собою, обмінюючись даними та викликаючи функції один одного. API визначає набір правил і протоколів, які дають можливість одній програмі або сервісу використовувати функціональність іншої програми без необхідності знати, як вона працює всередині.</p>
+<p>Метадані – це дані про дані, що описують характеристики, структуру, походження, контекст або інші аспекти самих даних. Вони забезпечують більш детальне розуміння та організацію інформації, полегшуючи її пошук, інтерпретацію та управління.</p>
+<p>Основні види метаданих:
+Описові метадані – дають інформацію про зміст і характеристики даних, допомагаючи користувачам зрозуміти, що являють собою дані. Наприклад, це може бути назва набору даних, автор, дата створення, ключові слова тощо.</p>
+<p>Структурні метадані – описують, як організовані дані. Вони визначають структуру файлів, формат запису, зв’язки між об'єктами або елементами даних. Наприклад, це може бути схема бази даних або структура XML-документа.</p>
+<p>Адміністративні метадані – забезпечують інформацію для управління даними, їх обробки та використання.</p>
+<p>Object-Relational Mapping (ORM) – це технологія програмування, яка дозволяє взаємодіяти з базою даних, використовуючи об'єкти у коді замість написання SQL-запитів. ORM автоматично перетворює об'єкти в реляційні записи в базі даних та навпаки, спрощуючи доступ до даних і роблячи роботу з базою більш зрозумілою для розробників. Основна ідея ORM полягає в тому, що кожен клас у програмі відповідає таблиці в базі даних, а кожен об'єкт цього класу – це запис у цій таблиці.</p>
+<h2 id="Підходи-та-способи-вирішення-завдання"><a class="header" href="#Підходи-та-способи-вирішення-завдання">Підходи та способи вирішення завдання</a></h2>
+<h3 id="Збір-даних"><a class="header" href="#Збір-даних">Збір даних</a></h3>
+<h3 id="Опитування"><a class="header" href="#Опитування">Опитування</a></h3>
+<h3 id="Приклад-використання"><a class="header" href="#Приклад-використання">Приклад використання</a></h3>
+<ul>
+<li>Збір інформації про задоволеність клієнтів.</li>
+</ul>
+<h3 id="Інструменти"><a class="header" href="#Інструменти">Інструменти</a></h3>
+<ul>
+<li>Google Forms</li>
+<li>SruveyMonkey</li>
+<li>Typeform</li>
+</ul>
+<h3 id="Переваги"><a class="header" href="#Переваги">Переваги</a></h3>
+<ul>
+<li>Легкість у створенні та розповсюдженні</li>
+<li>Можливість отримання специфічних даних</li>
+</ul>
+<h3 id="Недоліки"><a class="header" href="#Недоліки">Недоліки</a></h3>
+<ul>
+<li>Висока залежність від респондентів.</li>
+<li>Можливість упередженості у відповідях.</li>
+</ul>
+<h3 id="Аналіз-соціальних-мереж"><a class="header" href="#Аналіз-соціальних-мереж">Аналіз соціальних мереж</a></h3>
+<h3 id="Приклад-використання-1"><a class="header" href="#Приклад-використання-1">Приклад використання</a></h3>
+<ul>
+<li>Вивчення громадської думки щодо політичних кампаній.</li>
+</ul>
+<h3 id="Інструменти-1"><a class="header" href="#Інструменти-1">Інструменти</a></h3>
+<ul>
+<li>Brandwatch</li>
+<li>Hootsuite</li>
+<li>Sprout Social</li>
+</ul>
+<h3 id="Переваги-1"><a class="header" href="#Переваги-1">Переваги</a></h3>
+<ul>
+<li>Широкий обсяг даних.</li>
+<li>Можливість швидкого реагування на зміни.</li>
+</ul>
+<h3 id="Недоліки-1"><a class="header" href="#Недоліки-1">Недоліки</a></h3>
+<ul>
+<li>Складність у фільтрації релевантних даних.</li>
+<li>Високий рівень шуму (недостовірної інформації).</li>
+</ul>
+<h3 id="web-scraping"><a class="header" href="#web-scraping">Web-scraping</a></h3>
+<h3 id="Приклад-використання-2"><a class="header" href="#Приклад-використання-2">Приклад використання</a></h3>
+<ul>
+<li>Збір інформації з веб-сайтів про ціни на товари.</li>
+</ul>
+<h3 id="Інструменти-2"><a class="header" href="#Інструменти-2">Інструменти</a></h3>
+<ul>
+<li>Beautiful Soup, Scrapy.</li>
+</ul>
+<h3 id="Переваги-2"><a class="header" href="#Переваги-2">Переваги</a></h3>
+<ul>
+<li>Можливість збору великих обсягів даних, автоматизація процесу.</li>
+</ul>
+<h3 id="Недоліки-2"><a class="header" href="#Недоліки-2">Недоліки</a></h3>
+<ul>
+<li>Правові питання, ризик отримання неактуальної або неповної інформації.</li>
+</ul>
+<h3 id="Сенсори-та-iot"><a class="header" href="#Сенсори-та-iot">Сенсори та IoT</a></h3>
+<h3 id="Приклад-використання-3"><a class="header" href="#Приклад-використання-3">Приклад використання</a></h3>
+<ul>
+<li>Моніторинг якості повітря за допомогою сенсорів.</li>
+</ul>
+<h3 id="Інструменти-3"><a class="header" href="#Інструменти-3">Інструменти</a></h3>
+<ul>
+<li>Arduino, Raspberry Pi.</li>
+</ul>
+<h3 id="Переваги-3"><a class="header" href="#Переваги-3">Переваги</a></h3>
+<ul>
+<li>Збір даних в реальному часі, висока точність.</li>
+</ul>
+<h3 id="Недоліки-3"><a class="header" href="#Недоліки-3">Недоліки</a></h3>
+<ul>
+<li>Вартість обладнання, необхідність технічних знань.</li>
+</ul>
+<h3 id="Державні-ресурси"><a class="header" href="#Державні-ресурси">Державні ресурси</a></h3>
+<h3 id="Приклад-використання-4"><a class="header" href="#Приклад-використання-4">Приклад використання</a></h3>
+<ul>
+<li>Оприлюднення статистичних даних про економіку.</li>
+</ul>
+<h3 id="Інструменти-4"><a class="header" href="#Інструменти-4">Інструменти</a></h3>
+<ul>
+<li>Портали відкритих даних (data.gov).rduino, Raspberry Pi.</li>
+</ul>
+<h3 id="Переваги-4"><a class="header" href="#Переваги-4">Переваги</a></h3>
+<ul>
+<li>Офіційні джерела, надійність даних.</li>
+</ul>
+<h3 id="Недоліки-4"><a class="header" href="#Недоліки-4">Недоліки</a></h3>
+<ul>
+<li>Можливі затримки у публікації, обмежена частота оновлення.</li>
+</ul>
+<h3 id="Зберігання-даних"><a class="header" href="#Зберігання-даних">Зберігання даних</a></h3>
+<p>Система збереження данних є важливим інструментом для забезпечення доступу до інформації, яка має суспільну цінність.</p>
+<h3 id="Основні-підходи-до-зберігання-даних"><a class="header" href="#Основні-підходи-до-зберігання-даних">Основні підходи до зберігання даних</a></h3>
+<ul>
+<li>Реляційні бази даних: Реляційні бази даних є традиційним методом зберігання даних, де інформація організована у таблиці, що пов'язані між собою. Цей підхід забезпечує структурованість, цілісність та зручність в отриманні даних через SQL-запити.</li>
+<li>Нереляційні (NoSQL) бази даних: Нереляційні бази даних, такі як MongoDB або Cassandra, дозволяють зберігати дані у вигляді документів, графів або ключ-значення. Вони є більш гнучкими і підходять для великих обсягів неструктурованих даних.</li>
+<li>Хмарне зберігання: Використання хмарних сервісів, таких як AWS, Google Cloud або Azure, дозволяє зберігати дані на віддалених серверах. Це забезпечує високу доступність, масштабованість та зменшує витрати на інфраструктуру.</li>
+<li>Локальне зберігання: У деяких випадках дані зберігаються локально на серверах організацій. Цей підхід може бути більш безпечним для чутливої інформації, але може мати обмеження щодо доступності та масштабованості.</li>
+</ul>
+<h3 id="Моделі-зберігання-даних"><a class="header" href="#Моделі-зберігання-даних">Моделі зберігання даних</a></h3>
+<ul>
+<li>Модель "таблиця": У реляційних базах даних дані організуються у вигляді таблиць з рядками та стовпцями. Це дозволяє легко виконувати запити, фільтрацію та агрегацію даних.</li>
+<li>Модель "документ": Використовується в нереляційних базах даних, де дані зберігаються у форматі JSON або XML. Ця модель дозволяє зберігати складні структури даних та є ідеальною для веб-додатків.</li>
+<li>Модель "граф": Застосовується для зберігання даних, пов'язаних між собою, таких як соціальні мережі. Графові бази даних, наприклад Neo4j, дозволяють ефективно аналізувати зв'язки між об'єктами.</li>
+<li>Модель "ключ-значення": Ця проста модель використовується в базах даних, де дані зберігаються у вигляді пар "ключ-значення". Вона забезпечує високу швидкість доступу і підходить для кешування та простих запитів.</li>
+</ul>
+<h3 id="Аналіз-даних"><a class="header" href="#Аналіз-даних">Аналіз даних</a></h3>
+<p>Аналіз даних є критично важливим етапом у системі управління відкритими даними. Він дозволяє виявляти тренди, моделі та залежності, що сприяє прийняттю обґрунтованих рішень.
+Завдяки аналізу даних можна отримати цінну інформацію, яка допомагає в різних сферах, включаючи економіку, науку та соціальні дослідження.</p>
+<h3 id="Методи-аналізу-даних"><a class="header" href="#Методи-аналізу-даних">Методи аналізу даних</a></h3>
+<ul>
+<li>Описова статистика: Використовується для узагальнення та опису основних характеристик набору даних. Наприклад, середнє значення, медіана, мода, стандартне відхилення.</li>
+<li>Інфографіка: Візуалізація даних через графіки, діаграми та карти, що полегшує сприйняття інформації та виявлення патернів.</li>
+<li>Кореляційний аналіз: Досліджує зв’язки між різними змінними, що дозволяє виявити, чи є залежність між ними.</li>
+<li>Регресійний аналіз: Визначає залежність однієї змінної від іншої, що допомагає передбачати результати на основі історичних даних.</li>
+<li>Кластерний аналіз: Групує дані в класи, що допомагає виявити схожість між об'єктами та виділити групи з подібними характеристиками.</li>
+<li>Аналіз часових рядів: Досліджує дані, зібрані у різні моменти часу, що дозволяє виявити сезонні тренди та циклічні зміни.</li>
+<li>Машинне навчання: Використання алгоритмів для автоматичного виявлення закономірностей у даних, зокрема класифікації, регресії та кластеризації.</li>
+<li>Текстовий аналіз: Аналіз неструктурованих даних, таких як текстові документи, що дозволяє видобувати цінну інформацію з текстів.</li>
+<li>Аналіз великих даних (Big Data): Застосування спеціальних технологій та інструментів для обробки та аналізу великих обсягів даних, що дозволяє отримувати нові інсайти.</li>
+</ul>
+<h3 id="Обробка-даних"><a class="header" href="#Обробка-даних">Обробка даних</a></h3>
+<p>Обробка даних у системі управління відкритими даними включає етапи збору, попередньої обробки, аналізу, візуалізації, зберігання та публікації даних.
+Цей процес дозволяє забезпечити якість і доступність даних для користувачів.</p>
+<h3 id="Основні-етапи-обробки-даних"><a class="header" href="#Основні-етапи-обробки-даних">Основні етапи обробки даних</a></h3>
+<ul>
+<li>Збір даних: На першому етапі необхідно зібрати дані з різних джерел. Це можуть бути опитування, сенсори, веб-сайти, бази даних тощо.</li>
+<li>Попередня обробка: Цей етап включає очищення даних від помилок, неповних або некоректних записів. Важливо також стандартизувати формати даних для подальшої роботи.</li>
+<li>Аналіз даних: На цьому етапі дані піддаються аналізу за допомогою статистичних методів та алгоритмів. Це може включати в себе виявлення закономірностей, трендів або аномалій.</li>
+<li>Візуалізація даних: Візуалізація допомагає зрозуміти результати аналізу. Графіки, діаграми та інші візуальні інструменти роблять інформацію більш доступною для сприйняття.</li>
+<li>Зберігання даних: Оброблені дані повинні бути збережені у безпечному місці, щоб забезпечити їх доступність та цілісність. Це можуть бути реляційні бази даних, хмарні рішення або локальні сервери.</li>
+<li>Публікація даних: Останній етап — це публікація відкритих даних для загального доступу. Важливо забезпечити зручний доступ до даних через API, веб-портали або інші платформи.</li>
+</ul>
+<h3 id="Інструменти-для-обробки-даних"><a class="header" href="#Інструменти-для-обробки-даних">Інструменти для обробки даних</a></h3>
+<ul>
+<li>Excel: зручний для аналізу та візуалізації даних.</li>
+<li>Python: з бібліотеками, такими як pandas для обробки даних та SQLAlchemy для роботи з базами даних.</li>
+<li>MySQL: система управління реляційними базами даних.</li>
+<li>PostgreSQL: потужна реляційна база даних з розширеними можливостями.</li>
+<li>SQLite: легка база даних, що підходить для невеликих проєктів.</li>
+</ul>
+<h3 id="Забезпечення-доступу"><a class="header" href="#Забезпечення-доступу">Забезпечення доступу</a></h3>
+<p>Системи забезпечення доступу до відкритих даних є важливими для забезпечення прозорості та ефективності використання інформації.
+Вони забезпечують контроль за доступом до даних, що має суспільну цінність, і сприяють розвитку інновацій. Для їх ефективної роботи потрібні надійні механізми контролю доступу.</p>
+<h3 id="oauth"><a class="header" href="#oauth">OAuth</a></h3>
+<p>Стандарт для авторизації, що дозволяє стороннім додаткам отримувати обмежений доступ до ресурсів без надання облікових даних користувача. Використовується в багатьох веб-сервісах.</p>
+<h3 id="Основні-компоненти"><a class="header" href="#Основні-компоненти">Основні компоненти</a></h3>
+<ul>
+<li>Ресурсний сервер</li>
+<li>Сервер авторизації</li>
+<li>Клієнт</li>
+<li>Користувач</li>
+</ul>
+<h3 id="Переваги-5"><a class="header" href="#Переваги-5">Переваги</a></h3>
+<ul>
+<li>Гнучкість у налаштуваннях доступу</li>
+<li>Можливість інтеграції з різними сервісами</li>
+</ul>
+<h3 id="Недоліки-5"><a class="header" href="#Недоліки-5">Недоліки</a></h3>
+<ul>
+<li>Складність в налаштуванні</li>
+<li>Можливість зловживання токенами</li>
+</ul>
+<h3 id="openid-connect"><a class="header" href="#openid-connect">OpenID Connect</a></h3>
+<p>Протокол, що базується на OAuth 2.0, який дозволяє користувачам аутентифікуватися через сторонній ідентифікаційний провайдер, спрощуючи вхід на різні ресурси.</p>
+<h3 id="Основні-компоненти-1"><a class="header" href="#Основні-компоненти-1">Основні компоненти</a></h3>
+<ul>
+<li>Ідентифікаційний провайдер</li>
+<li>Ресурсний сервер</li>
+<li>Клієнт</li>
+</ul>
+<h3 id="Переваги-6"><a class="header" href="#Переваги-6">Переваги</a></h3>
+<ul>
+<li>Підтримка одноразових логінів</li>
+<li>Зручність для користувачів</li>
+</ul>
+<h3 id="Недоліки-6"><a class="header" href="#Недоліки-6">Недоліки</a></h3>
+<ul>
+<li>Залежність від третьої сторони</li>
+<li>Потенційні проблеми з конфіденційністю</li>
+</ul>
+<h3 id="ldap-lightweight-directory-access-protocol"><a class="header" href="#ldap-lightweight-directory-access-protocol">LDAP (Lightweight Directory Access Protocol)</a></h3>
+<p>Протокол для доступу та управління інформацією в каталогах, зазвичай використовується для централізованого управління доступом до ресурсів у мережі.</p>
+<h3 id="Основні-компоненти-2"><a class="header" href="#Основні-компоненти-2">Основні компоненти</a></h3>
+<ul>
+<li>LDAP-сервер</li>
+<li>Клієнтські застосунки</li>
+</ul>
+<h3 id="Переваги-7"><a class="header" href="#Переваги-7">Переваги</a></h3>
+<ul>
+<li>Централізоване управління доступом</li>
+<li>Легкість у масштабуванні</li>
+</ul>
+<h3 id="Недоліки-7"><a class="header" href="#Недоліки-7">Недоліки</a></h3>
+<ul>
+<li>Вимоги до налаштування серверів</li>
+<li>Може бути складним для початківців</li>
+</ul>
+<h2 id="Порівняльна-характеристика-існуючих-засобів-вирішення-завдання"><a class="header" href="#Порівняльна-характеристика-існуючих-засобів-вирішення-завдання">Порівняльна характеристика існуючих засобів вирішення завдання</a></h2>
+<h3 id="ckan"><a class="header" href="#ckan">CKAN</a></h3>
+<p>CKAN (Comprehensive Knowledge Archive Network) — одна з найбільш популярних платформ для управління відкритими даними, яка широко використовується урядами та організаціями.</p>
+<h3 id="Основні-характеристики"><a class="header" href="#Основні-характеристики">Основні характеристики:</a></h3>
+<ul>
+<li>Підтримує багатоформатність даних.</li>
+<li>Інтеграція з API.</li>
+<li>Можливість користувацького налаштування.</li>
+</ul>
+<h3 id="dkan"><a class="header" href="#dkan">DKAN</a></h3>
+<p>DKAN — це рішення на базі Drupal, яке пропонує інтуїтивно зрозумілий інтерфейс для управління даними.</p>
+<h3 id="Основні-характеристики-1"><a class="header" href="#Основні-характеристики-1">Основні характеристики:</a></h3>
+<ul>
+<li>Легка інтеграція з Drupal.</li>
+<li>Широкі можливості для кастомізації.</li>
+<li>Зручний для користувачів.</li>
+</ul>
+<h3 id="datahub"><a class="header" href="#datahub">DataHub</a></h3>
+<p>DataHub — це платформа, яка фокусується на збиранні, обробці та публікації даних.</p>
+<h3 id="Основні-характеристики-2"><a class="header" href="#Основні-характеристики-2">Основні характеристики:</a></h3>
+<ul>
+<li>Висока продуктивність.</li>
+<li>Гнучка структура даних.</li>
+<li>Інтеграція з зовнішніми API.</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>Платформа</th><th><strong>Functionality</strong></th><th><strong>Usability</strong></th><th><strong>Reliability</strong></th><th><strong>Performance</strong></th><th><strong>Supportability</strong></th></tr></thead><tbody>
+<tr><td>CKAN</td><td>Інтеграція з API (реалізована)</td><td>Інтуїтивно зрозумілий інтерфейс</td><td>Стабільна</td><td>Висока продуктивність</td><td>Активна спільнота</td></tr>
+<tr><td>DKAN</td><td>Інтеграція з API (реалізована, проте має недоліки)</td><td>Зручний для користувачів</td><td>Стабільна</td><td>Помірна продуктивність</td><td>Обмежена документація</td></tr>
+<tr><td>DataHub</td><td>Інтеграція з API (реалізована)</td><td>Інтуїтивно зрозумілий інтерфейс</td><td>Стабільна</td><td>Висока продуктивність</td><td>Активна підтримка</td></tr>
+</tbody></table>
+</div>
+<h2 id="Висновки"><a class="header" href="#Висновки">Висновки</a></h2>
+<p>Система управління відкритими даними є ключовим інструментом для забезпечення прозорості, підвищення ефективності та сприяння інноваціям у суспільстві.
+Вона дозволяє організаціям, державним установам та громадськості отримувати доступ до важливої інформації, що сприяє прийняттю обґрунтованих рішень.
+Ефективна реалізація таких систем потребує інтеграції технологій, забезпечення безпеки даних та активної участі користувачів.
+Завдяки цьому, відкриті дані можуть стати потужним каталізатором соціально-економічного розвитку,
+полегшуючи співпрацю між різними секторами та підвищуючи рівень довіри до державних інституцій.</p>
+<h2 id="Посилання"><a class="header" href="#Посилання">Посилання</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Open_data">Відкриті дані</a></li>
+<li><a href="https://www.researchgate.net/publication/359596426_Data_Collection_Methods_and_Tools_for_Research_A_Step-by-Step_Guide_to_Choose_Data_Collection_Technique_for_Academic_and_Business_Research_Projects">Збір Даних</a></li>
+<li><a href="https://en.wikipedia.org/wiki/SQL">SQL бази даних</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Web_scraping">Web scraping</a></li>
+<li><a href="https://docs.ckan.org/en/2.11/">CKAN</a></li>
+<li><a href="https://dkan.readthedocs.io/en/latest/">DKAN</a></li>
+<li><a href="https://datahubproject.io/docs/features">DataHub</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="requirements.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="stakeholders-needs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="requirements.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="stakeholders-needs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
