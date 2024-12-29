@@ -6,7 +6,7 @@
 - реляційна схема
 
 # Модель бізнес-об'єктів
-
+```plantuml
 @startuml entity User <> #88FFAE entity User.id <> #FFFFFF entity User.login <> #FFFFFF entity User.firstname <> #FFFFFF entity User.lastname <> #FFFFFF entity User.email <> #FFFFFF entity User.password <> #FFFFFF
 
 entity Role <<ENTITY>> #88FFAE
@@ -87,11 +87,11 @@ Datafile "1,1"-r-"0,*" Datafile_tag
 Datafile_tag "0,*"-r-"1,1" Tag
 
 @enduml
-
+```
 
 
 # ER-модель
-
+```plantuml
 @startuml
 
 entity User  {
@@ -157,7 +157,7 @@ DatarecordCategory "0.*"-r->"1.1" Datarecord
 Category "0.1"-->"0.*" Category
 
 @enduml
-
+```
 # Реляційна схема
 ![Diagram](https://github.com/user-attachments/assets/c164ab09-60de-48c0-b914-b12b7f82fcc0)
 
